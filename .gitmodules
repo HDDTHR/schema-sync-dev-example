@@ -1,0 +1,3 @@
+[submodule "extensions/directus-schema-sync"]
+	path = extensions/directus-schema-sync
+	url = https://github.com/HDDTHR/directus-schema-sync.git

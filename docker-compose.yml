@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:14.5-alpine
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    tmpfs: /var/lib/postgresql/data # Prevent the persisting of the db data
+    ports:
+      - 5432:5432
+    networks:
+      - dev-network
+
+  directus:
+    image: directus/directus:10.10.4
+    volumes:
+      - ./.env:/directus/.env
+      - ./extensions:/directus/extensions
+
+      - ./schema-sync:/directus/schema-sync
+    ports:
+      - 8055:8055
+    networks:
+      - dev-network
+    depends_on:
+      - db
+
+networks:
+  dev-network:
+    name: dev-network
